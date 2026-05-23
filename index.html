@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown to September 14, 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .target-date {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 3rem;
+    }
+
+    .countdown-grid {
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .number {
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      min-width: 2ch;
+      text-align: center;
+    }
+
+    .label {
+      font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .separator {
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      font-weight: 200;
+      color: #333;
+      line-height: 1;
+      align-self: flex-start;
+      padding-top: 0.1em;
+    }
+
+    .done-message {
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    .live-clock {
+      margin-top: 3rem;
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+      color: #444;
+      letter-spacing: 0.15em;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="target-date">September 14 &nbsp;·&nbsp; 2026</p>
+
+  <div id="countdown" class="countdown-grid">
+    <div class="unit">
+      <span class="number" id="days">--</span>
+      <span class="label">Days</span>
+    </div>
+    <span class="separator">:</span>
+    <div class="unit">
+      <span class="number" id="hours">--</span>
+      <span class="label">Hours</span>
+    </div>
+    <span class="separator">:</span>
+    <div class="unit">
+      <span class="number" id="minutes">--</span>
+      <span class="label">Minutes</span>
+    </div>
+    <span class="separator">:</span>
+    <div class="unit">
+      <span class="number" id="seconds">--</span>
+      <span class="label">Seconds</span>
+    </div>
+  </div>
+
+  <p class="live-clock" id="clock"></p>
+
+  <script>
+    const target = new Date('2026-09-14T00:00:00');
+
+    function pad(n) {
+      return String(n).padStart(2, '0');
+    }
+
+    function tick() {
+      const now = new Date();
+      const diff = target - now;
+
+      document.getElementById('clock').textContent = now.toLocaleString();
+
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML =
+          '<p class="done-message">The day has arrived!</p>';
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const seconds = totalSeconds % 60;
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const minutes = totalMinutes % 60;
+      const totalHours = Math.floor(totalMinutes / 60);
+      const hours = totalHours % 24;
+      const days = Math.floor(totalHours / 24);
+
+      document.getElementById('days').textContent    = days;
+      document.getElementById('hours').textContent   = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
